@@ -1,0 +1,548 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Segoe UI",Arial,sans-serif;
+    background:
+        radial-gradient(
+            circle at top left,
+            #1e3a8a,
+            transparent 40%
+        ),
+        radial-gradient(
+            circle at top right,
+            #0f766e,
+            transparent 40%
+        ),
+        #020617;
+
+    min-height:100vh;
+    color:#e5e7eb;
+}
+
+/* =====================================
+   HEADER
+===================================== */
+
+.headerLeft{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.headerLogo{
+
+    width:100px;
+
+    height:60px;
+
+    object-fit:contain;
+
+}
+
+.header{
+    background:#111827;
+    border-bottom:1px solid #1f2937;
+    padding:20px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:26px;
+    font-weight:700;
+    color:#3b82f6;
+}
+
+.subtitle{
+    color:#94a3b8;
+    font-size:14px;
+}
+
+/* =====================================
+   KPI BAR
+===================================== */
+
+.kpiRow{
+    display:grid;
+    grid-template-columns:
+        repeat(4,1fr);
+    gap:20px;
+    margin:20px;
+}
+
+.kpi{
+    background:#111827;
+    border:1px solid #1f2937;
+    border-radius:12px;
+    padding:20px;
+    position:relative;
+    overflow:hidden;
+}
+
+.kpi::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:4px;
+}
+
+.kpiValue{
+    font-size:34px;
+    font-weight:700;
+    color:#60a5fa;
+    min-height:48px;
+    display:flex;
+    align-items:center;
+}
+
+.kpiLabel{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+/* =====================================
+   LAYOUT
+===================================== */
+
+.container{
+    padding:20px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:
+        1fr 1fr;
+    gap:20px;
+}
+
+/* =====================================
+   CARDS
+===================================== */
+
+.card{
+    background:rgba(17,24,39,0.85);
+    backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:18px;
+    padding:20px;
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.3);
+    transition:all .25s ease;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+}
+
+.card h2{
+    margin-bottom:15px;
+    color:#f9fafb;
+}
+
+/* =====================================
+   INPUTS
+===================================== */
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #374151;
+    border-radius:8px;
+    background:#1f2937;
+    color:white;
+    margin-bottom:12px;
+}
+
+input[type=file]{
+    padding:10px;
+}
+
+/* =====================================
+   BUTTONS
+===================================== */
+
+button{
+    border:none;
+    border-radius:8px;
+    padding:10px 18px;
+    cursor:pointer;
+    font-weight:600;
+    transition:all .25s ease;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.primary{
+    background:#2563eb;
+    color:white;
+}
+
+.primary:hover{
+    background:#1d4ed8;
+}
+
+.approve{
+    background:#16a34a;
+    color:white;
+}
+
+.approve:hover{
+    background:#15803d;
+}
+
+.reject{
+    background:#dc2626;
+    color:white;
+}
+
+.reject:hover{
+    background:#b91c1c;
+}
+
+.footer{
+    text-align:center;
+    color:#64748b;
+    padding:20px;
+    font-size:13px;
+}
+
+/* =====================================
+   TBM CARDS
+===================================== */
+
+.pendingItem,
+.onlineItem,
+.campaignItem{
+    background:#1f2937;
+    border:1px solid #374151;
+    border-radius:8px;
+    padding:8px 12px;
+    margin-bottom:8px;
+    font-size:13px;
+    transition:all .25s ease;
+}
+
+.campaignItem:hover{
+    border-color:#3b82f6;
+    transform:translateY(-1px);
+}
+
+/* =====================================
+   STATUS BADGES
+===================================== */
+
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+}
+
+.online{
+    background:#14532d;
+    color:#86efac;
+}
+
+.pending{
+    background:#78350f;
+    color:#fde68a;
+}
+
+.completed{
+    background:#0f766e;
+    color:#99f6e4;
+}
+
+/* =====================================
+   LOGS
+===================================== */
+.fullWidth{
+    grid-column: 1 / -1;
+}
+.card.fullWidth{
+    width:100%;
+}
+
+.consoleHeader{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    width:100%;
+
+    margin-bottom:15px;
+}
+
+.consoleHeader h2{
+
+    margin:0;
+}
+
+.downloadBtn{
+
+    background:#1976d2;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-weight:600;
+}
+
+.statusContainer{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.statusText{
+    font-size:34px;
+    font-weight:700;
+    color:#60a5fa;
+    line-height:1;
+}
+
+.statusDot{
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:#22c55e;
+
+    box-shadow:
+        0 0 10px #22c55e,
+        0 0 20px #22c55e;
+
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.15);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+
+}
+
+#logs{
+    background:#020617;
+    border:1px solid #334155;
+    border-radius:12px;
+    height:350px;
+    width:100%;
+    overflow-y:auto;
+    padding:15px;
+    color:#22c55e;
+    font-family:Consolas,monospace;
+    font-size:13px;
+}
+
+.ecuToggle{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin:12px 0 15px 0;
+
+}
+
+.ecuToggle input[type=checkbox]{
+
+    width:20px;
+
+    height:20px;
+
+    cursor:pointer;
+
+    margin:0;
+
+    flex:none;
+
+}
+
+.navMenu{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.navBtn{
+
+    background:transparent;
+
+    color:#cbd5e1;
+
+    border:1px solid #374151;
+
+    padding:10px 18px;
+
+    border-radius:8px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.navBtn.active:hover{
+
+    background:transparent;
+
+    color:#cbd5e1;
+
+    border:1px solid #374151;
+
+    padding:10px 18px;
+
+    border-radius:8px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.navBtn.active{
+
+    background:#2563eb;
+
+    border-color:#2563eb;
+
+    color:white;
+
+}
+
+.logoutBtn{
+
+    background:#dc2626;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:8px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.logoutBtn:hover{
+
+    background:#b91c1c;
+
+}
+
+.ecuToggle label{
+
+    margin:0;
+
+    font-size:18px;
+
+    color:#e5e7eb;
+
+    cursor:pointer;
+
+}
+
+.ecuSection{
+
+    border:1px solid #374151;
+
+    border-radius:12px;
+
+    padding:18px;
+
+    margin-top:20px;
+
+    background:#1b2433;
+
+}
+
+.ecuSection h3{
+
+    margin-bottom:18px;
+
+    color:#60a5fa;
+
+}
+
+#campaignList{
+    max-height:220px;
+    overflow-y:auto;
+    padding-right:5px;
+}
+
+#campaignList::-webkit-scrollbar{
+    width:8px;
+}
+
+#campaignList::-webkit-scrollbar-thumb{
+    background:#475569;
+    border-radius:10px;
+}
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media(max-width:1000px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .kpiRow{
+        grid-template-columns:
+            1fr 1fr;
+    }
+}
