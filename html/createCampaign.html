@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Create Campaign</title>
+
+<link rel="stylesheet" href="../static/css/styles.css">
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <div class="headerLeft">
+
+    <img
+        src="../static/images/logo.png"
+        class="headerLogo"
+        alt="Bosch Logo">
+
+        <div>
+
+            <div class="logo">
+                OTA Platform
+            </div>
+
+            <div class="subtitle">
+                Firmware Over-The-Air Campaign Management
+            </div>
+
+        </div>
+
+    </div>
+    <div style="display:flex;gap:10px;">
+
+    <div class="navMenu">
+
+    <button
+        class="navBtn active"
+        onclick="window.location='index.html'">
+
+        Dashboard
+
+    </button>
+
+    <button
+        class="navBtn active"
+        onclick="window.location='registered_tbms.html'">
+
+        Registered TBMs
+
+    </button>
+
+    <button
+        class="navBtn"
+        onclick="window.location='createCampaign.html'">
+
+        Create Campaign
+
+    </button>
+
+    <button
+        class="navBtn active"
+        onclick="window.location='CampaignHistory.html'">
+
+        Campaign History
+
+    </button>
+
+    <button
+        class="navBtn active"
+        onclick="window.location='firmware_repository.html'">
+
+        Firmware Repository
+
+    </button>
+
+    <button
+        class="logoutBtn"
+        onclick="logout()">
+
+        Logout
+
+    </button>
+
+</div>
+
+</div>
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Create New Campaign</h2>
+
+<input
+type="text"
+id="campaignId"
+placeholder="Campaign ID">
+
+<input
+type="text"
+id="vin"
+placeholder="Target VIN">
+
+<input
+type="text"
+id="campaignName"
+placeholder="Campaign Name">
+
+<div class="ecuSection">
+
+<h3>SGW ECU</h3>
+
+<div class="ecuToggle">
+
+<input
+type="checkbox"
+id="enableSGW">
+
+<label for="enableSGW">
+
+Include SGW Update
+
+</label>
+
+</div>
+
+<input
+type="text"
+id="sgwVersion"
+placeholder="SGW Target Version">
+
+<input
+type="file"
+id="sgwFirmware"
+accept=".bin">
+
+</div>
+
+<div class="ecuSection">
+
+<h3>BCM ECU</h3>
+
+<div class="ecuToggle">
+
+<input
+type="checkbox"
+id="enableBCM">
+
+<label for="enableBCM">
+
+Include BCM Update
+
+</label>
+
+</div>
+
+<input
+type="text"
+id="bcmVersion"
+placeholder="BCM Target Version">
+
+<input
+type="file"
+id="bcmFirmware"
+accept=".bin">
+
+</div>
+
+<div
+style="
+display:flex;
+justify-content:flex-end;
+gap:15px;
+margin-top:25px;
+">
+
+<button
+class="secondary"
+onclick="window.location='index.html'">
+
+Cancel
+
+</button>
+
+<button
+class="primary"
+onclick="createCampaign()">
+
+Create Campaign
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+Bosch Engineering Demo • FOTA Platform v2.0
+
+</div>
+
+<script src="../static/js/common.js"></script>
+<script src="../static/js/create_campaign.js"></script>
+
+</body>
+
+</html>

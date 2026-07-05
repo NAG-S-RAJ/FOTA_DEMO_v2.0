@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Campaign History</title>
+
+<link rel="stylesheet" href="../static/css/styles.css">
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <div class="headerLeft">
+
+    <img
+        src="../static/images/logo.png"
+        class="headerLogo"
+        alt="Bosch Logo">
+
+        <div>
+
+            <div class="logo">
+                OTA Platform
+            </div>
+
+            <div class="subtitle">
+                Firmware Over-The-Air Campaign Management
+            </div>
+
+        </div>
+
+    </div>
+    <div style="display:flex;gap:10px;">
+
+    <div class="navMenu">
+
+    <button
+        class="navBtn active"
+        onclick="window.location='index.html'">
+
+        Dashboard
+
+    </button>
+
+    <button
+        class="navBtn active"
+        onclick="window.location='registered_tbms.html'">
+
+        Registered TBMs
+
+    </button>
+
+    <button
+        class="navBtn active"
+        onclick="window.location='createCampaign.html'">
+
+        Create Campaign
+
+    </button>
+
+    <button
+        class="navBtn"
+        onclick="window.location='CampaignHistory.html'">
+
+        Campaign History
+
+    </button>
+
+    <button
+        class="navBtn active"
+        onclick="window.location='firmware_repository.html'">
+
+        Firmware Repository
+
+    </button>
+
+    <button
+        class="logoutBtn"
+        onclick="logout()">
+
+        Logout
+
+    </button>
+
+</div>
+
+</div>
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<h2>
+
+Campaign History
+
+</h2>
+
+<div class="toolbar">
+
+<input
+id="searchCampaign"
+placeholder="Search Campaign ID or VIN">
+
+<button
+class="secondary"
+onclick="loadCampaigns()">
+
+Refresh
+
+</button>
+
+</div>
+
+<div class="table-container">
+
+<table id="campaignTable">
+
+<thead>
+
+<tr>
+
+<th>Campaign ID</th>
+
+<th>Campaign Name</th>
+
+<th>VIN</th>
+
+<th>Target ECU</th>
+
+<th>SGW Version</th>
+
+<th>BCM Version</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tbody>
+
+</tr>
+
+</thead>
+
+<tbody id="campaignList">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+Bosch Engineering Demo • FOTA Platform v2.0
+
+</div>
+
+<link rel="stylesheet" href="../static/css/CamapignHistory.css">
+
+<script src="../static/js/campaign_history.js"></script>
+
+</body>
+
+</html>

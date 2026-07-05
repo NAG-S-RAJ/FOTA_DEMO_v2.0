@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Registered TBMs</title>
+
+<link rel="stylesheet" href="../static/css/styles.css">
+<link rel="stylesheet" href="../static/css/registered_tbms.css">
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <div class="headerLeft">
+
+    <img
+        src="../static/images/logo.png"
+        class="headerLogo"
+        alt="Bosch Logo">
+
+        <div>
+
+            <div class="logo">
+                OTA Platform
+            </div>
+
+            <div class="subtitle">
+                Firmware Over-The-Air Campaign Management
+            </div>
+
+        </div>
+
+    </div>
+    <div style="display:flex;gap:10px;">
+
+    <div class="navMenu">
+
+    <button
+        class="navBtn active"
+        onclick="window.location='index.html'">
+
+        Dashboard
+
+    </button>
+
+    <button
+        class="navBtn"
+        onclick="window.location='registered_tbms.html'">
+
+        Registered TBMs
+
+    </button>
+
+    <button
+        class="navBtn active"
+        onclick="window.location='createCampaign.html'">
+
+        Create Campaign
+
+    </button>
+
+    <button
+        class="navBtn active"
+        onclick="window.location='CampaignHistory.html'">
+
+        Campaign History
+
+    </button>
+
+    <button
+        class="navBtn active"
+        onclick="window.location='firmware_repository.html'">
+
+        Firmware Repository
+
+    </button>
+
+    <button
+        class="logoutBtn"
+        onclick="logout()">
+
+        Logout
+
+    </button>
+
+</div>
+
+</div>
+</div>
+
+<!-- Title -->
+
+<div class="container">
+
+<div class="pageTitle">
+
+<h1>
+
+Registered TBMs
+
+</h1>
+
+<p>
+
+Register and manage connected Telematics Box Modules.
+
+</p>
+
+</div>
+
+<!-- KPI -->
+
+<div class="kpiRow">
+
+<div class="kpi">
+
+<div
+class="kpiValue"
+id="registeredCount">
+
+0
+
+</div>
+
+<div class="kpiLabel">
+
+Registered TBMs
+
+</div>
+
+</div>
+
+<div class="kpi">
+
+<div
+class="kpiValue"
+id="onlineCount">
+
+0
+
+</div>
+
+<div class="kpiLabel">
+
+Connected TBMs
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Register -->
+
+<div class="card">
+
+<h2>
+
+Register New TBM
+
+</h2>
+
+<div class="formGrid registerGrid">
+
+<div class="formGroup">
+
+<label>VIN</label>
+
+<input
+id="vin"
+placeholder="Enter VIN">
+
+</div>
+
+<div class="formGroup">
+
+<label>SGW Version</label>
+
+<input
+id="sgwVersion"
+placeholder="Example : 1.0.0">
+
+</div>
+
+<div class="formGroup">
+
+<label>BCM Version</label>
+
+<input
+id="bcmVersion"
+placeholder="Example : 1.0.0">
+
+</div>
+
+</div>
+
+<div class="buttonRow">
+
+<button
+class="primary"
+onclick="addTBM()">
+
+Register TBM
+
+</button>
+
+</div>
+
+</div>
+
+<!-- Toolbar -->
+
+<div class="toolbar">
+
+<input
+
+id="searchVIN"
+
+placeholder="Search VIN..."
+
+onkeyup="filterTBMs()">
+
+<button
+
+class="primary"
+
+onclick="loadTBMs()">
+
+Refresh
+
+</button>
+
+</div>
+
+<!-- Table -->
+
+<div class="table-container">
+
+<table id="tbmTable">
+
+<thead>
+
+<tr>
+
+<th>VIN</th>
+
+<th>Status</th>
+
+<th>SGW Version</th>
+
+<th>BCM Version</th>
+
+<th>Added On</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tbmList">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+Bosch Engineering Demo • FOTA Platform v2.0
+
+</div>
+
+<script src="../static/js/common.js"></script>
+<script src="../static/js/registered_tbms.js"></script>
+
+</body>
+
+</html>

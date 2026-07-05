@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+Software Management
+</title>
+
+<style>
+
+body{
+    font-family:"Segoe UI",sans-serif;
+    background:#0b1220;
+    color:white;
+    margin:0;
+    padding:30px;
+}
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    margin:0;
+    color:#60a5fa;
+}
+
+.page-header p{
+    margin-top:5px;
+    color:#9ca3af;
+}
+
+.back-btn{
+    background:#1f2937;
+    color:white;
+    border:none;
+    padding:10px 16px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.back-btn:hover{
+    background:#374151;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:#111827;
+    border:1px solid #1f2937;
+    border-radius:16px;
+    padding:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.3);
+}
+
+.label{
+    color:#9ca3af;
+    font-size:13px;
+}
+
+.value{
+    font-size:24px;
+    font-weight:700;
+    color:#60a5fa;
+    margin-top:10px;
+}
+
+.card{
+    background:#111827;
+    border:1px solid #1f2937;
+    border-radius:16px;
+    padding:25px;
+    margin-bottom:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,.3);
+}
+
+.card h3{
+    margin-top:0;
+    color:#60a5fa;
+}
+
+input,
+select{
+    width:100%;
+    box-sizing:border-box;
+    padding:14px;
+    margin-bottom:15px;
+    border-radius:10px;
+    border:1px solid #374151;
+    background:#1f2937;
+    color:white;
+}
+
+input:focus,
+select:focus{
+    outline:none;
+    border-color:#60a5fa;
+}
+
+.primary{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.primary:hover{
+    background:#3b82f6;
+}
+
+.table-container{
+    background:#111827;
+    border:1px solid #1f2937;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.3);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#1f2937;
+    color:#60a5fa;
+    text-align:left;
+    padding:16px;
+}
+
+td{
+    padding:16px;
+    border-top:1px solid #374151;
+}
+
+tr:hover{
+    background:#1f2937;
+}
+
+.version-badge{
+    background:#1e3a8a;
+    color:#bfdbfe;
+    padding:6px 12px;
+    border-radius:999px;
+    font-weight:600;
+}
+
+.latest-badge{
+    background:#064e3b;
+    color:#6ee7b7;
+    padding:6px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.delete-btn{
+    background:#dc2626;
+    color:white;
+    border:none;
+    padding:8px 14px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.delete-btn:hover{
+    background:#ef4444;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page-header">
+
+    <div>
+
+        <h1>Software Management</h1>
+
+        <p>
+            Manage production firmware releases
+        </p>
+
+    </div>
+
+    <button
+    class="back-btn"
+    onclick="window.location='index.html'">
+
+        ← Dashboard
+
+    </button>
+
+</div>
+
+<div class="stats">
+
+    <div class="stat-card">
+
+        <div class="label">
+            Latest Version
+        </div>
+
+        <div
+        class="value"
+        id="latestVersion">
+
+        --
+
+        </div>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="label">
+            Latest Firmware
+        </div>
+
+        <div
+        class="value"
+        id="latestFirmware">
+
+        --
+
+        </div>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="label">
+            Total Releases
+        </div>
+
+        <div
+        class="value"
+        id="releaseCount">
+
+        0
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card">
+
+    <h3>
+        Publish New Release
+    </h3>
+
+    <input
+    id="sw"
+    placeholder="Software Version">
+
+    <select id="firmware">
+
+    </select>
+
+    <button
+    class="primary"
+    onclick="addSoftware()">
+
+        Publish Release
+
+    </button>
+
+</div>
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Version</th>
+
+<th>Firmware</th>
+
+<th>Published</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="swList">
+
+</tbody>
+
+</table>
+
+</div>
+
+<script>
+
+const SERVER =
+"https://fota-demo.onrender.com";
+
+async function loadFirmwareFiles(){
+
+    const response =
+    await fetch(
+        SERVER +
+        "/firmware_files"
+    );
+
+    const files =
+    await response.json();
+
+    const select =
+    document.getElementById(
+        "firmware"
+    );
+
+    select.innerHTML = "";
+
+    files.forEach(file=>{
+
+        select.innerHTML +=
+        `
+        <option value="${file}">
+            ${file}
+        </option>
+        `;
+    });
+}
+
+async function addSoftware(){
+
+    const sw =
+    document.getElementById(
+        "sw"
+    ).value;
+
+    const firmware =
+    document.getElementById(
+        "firmware"
+    ).value;
+
+    await fetch(
+
+        SERVER +
+        "/software" +
+
+        "?sw_version=" +
+        encodeURIComponent(sw) +
+
+        "&firmware_file=" +
+        encodeURIComponent(firmware),
+
+        {
+            method:"POST"
+        }
+    );
+
+    document.getElementById(
+        "sw"
+    ).value = "";
+
+    loadSoftware();
+}
+
+async function deleteSoftware(id){
+
+    await fetch(
+
+        SERVER +
+        "/software/" +
+        id,
+
+        {
+            method:"DELETE"
+        }
+    );
+
+    loadSoftware();
+}
+
+async function loadSoftware(){
+
+    const response =
+    await fetch(
+        SERVER +
+        "/software"
+    );
+
+    const data =
+    await response.json();
+
+    document.getElementById(
+        "releaseCount"
+    ).innerText =
+    data.length;
+
+    if(data.length > 0){
+
+        document.getElementById(
+            "latestVersion"
+        ).innerText =
+        data[0].sw_version;
+
+        document.getElementById(
+            "latestFirmware"
+        ).innerText =
+        data[0].firmware_file;
+    }
+
+    const tbody =
+    document.getElementById(
+        "swList"
+    );
+
+    tbody.innerHTML = "";
+
+    data.forEach((s,index)=>{
+
+        const latest =
+        index === 0
+        ? '<span class="latest-badge">LATEST</span>'
+        : '';
+
+        tbody.innerHTML += `
+
+        <tr>
+
+            <td>
+
+                <span
+                class="version-badge">
+
+                ${s.sw_version}
+
+                </span>
+
+            </td>
+
+            <td>
+
+                ${s.firmware_file}
+
+            </td>
+
+            <td>
+
+                ${new Date(
+                    s.added_on
+                ).toLocaleString()}
+
+            </td>
+
+            <td>
+
+                ${latest}
+
+            </td>
+
+            <td>
+
+                <button
+                class="delete-btn"
+                onclick="
+                deleteSoftware(
+                ${s.id}
+                )">
+
+                Delete
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+    });
+}
+
+loadFirmwareFiles();
+loadSoftware();
+
+</script>
+
+</body>
+</html>

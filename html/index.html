@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>FOTA Campaign Manager</title>
+</head>
+
+<body>
+<div class="header">
+
+    <div class="headerLeft">
+
+    <img
+        src="../static/images/logo.png"
+        class="headerLogo"
+        alt="Bosch Logo">
+
+        <div>
+
+            <div class="logo">
+                OTA Platform
+            </div>
+
+            <div class="subtitle">
+                Firmware Over-The-Air Campaign Management
+            </div>
+
+        </div>
+
+    </div>
+    <div style="display:flex;gap:10px;">
+
+    <div class="navMenu">
+
+    <button
+        class="navBtn active"
+        onclick="window.location='index.html'">
+
+        Dashboard
+
+    </button>
+
+    <button
+        class="navBtn active"
+        onclick="window.location='registered_tbms.html'">
+
+        Registered TBMs
+
+    </button>
+
+    <button
+        class="navBtn active"
+        onclick="window.location='createCampaign.html'">
+
+        Create Campaign
+
+    </button>
+
+    <button
+        class="navBtn active"
+        onclick="window.location='CampaignHistory.html'">
+
+        Campaign History
+
+    </button>
+
+    <button
+        class="navBtn active"
+        onclick="window.location='firmware_repository.html'">
+
+        Firmware Repository
+
+    </button>
+
+    <button
+        class="logoutBtn"
+        onclick="logout()">
+
+        Logout
+
+    </button>
+
+</div>
+
+</div>
+</div>
+
+<div class="kpiRow">
+
+    <div class="kpi">
+        <div id="onlineCount" class="kpiValue">0</div>
+        <div class="kpiLabel">
+            Connected TBMs
+        </div>
+    </div>
+
+    <div class="kpi">
+        <div id="pendingCount" class="kpiValue">0</div>
+        <div class="kpiLabel">
+            Pending Requests
+        </div>
+    </div>
+
+    <div class="kpi">
+        <div id="campaignCount" class="kpiValue">0</div>
+        <div class="kpiLabel">
+            Campaigns
+        </div>
+    </div>
+
+    <div class="kpi">
+
+    <div class="kpiValue statusContainer">
+
+        <span class="statusText">
+            ONLINE
+        </span>
+
+    </div>
+
+    <div class="kpiLabel">
+        System Status
+    </div>
+
+</div>
+
+</div>
+
+<div class="container">
+<div class="grid">
+<!-- Pending TBMs -->
+
+<div class="card">
+
+<h2>Pending TBM Requests</h2>
+
+<div id="pendingList">
+No Pending Requests
+</div>
+
+</div>
+
+<!-- Connected TBMs -->
+
+<div class="card">
+
+<h2>Connected TBMs</h2>
+
+<div id="tbmList">
+No Connected TBMs
+</div>
+
+</div>
+
+</div>
+
+<div style="height:0.6cm;"></div>
+
+<div>
+
+</div>
+
+<div class="card fullWidth">
+
+    <div class="consoleHeader">
+
+        <h2>Live Activity Console</h2>
+
+        <button
+            class="downloadBtn"
+            onclick="downloadLogs()">
+
+            Download Logs
+
+        </button>
+
+    </div>
+
+    <div id="logs"></div>
+
+</div>
+
+<div class="footer">
+    Bosch Engineering Demo • FOTA Platform v1.0
+</div>
+
+<link rel="stylesheet" href="../static/css/styles.css">
+<script src="../static/js/common.js"></script>
+<script src="../static/js/dashboard.js"></script></body>
+</html>
