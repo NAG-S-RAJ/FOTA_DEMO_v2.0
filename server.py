@@ -481,8 +481,8 @@ async def approve(vin: str):
             """,
             (
                 vin,
-                "1.0.0",
-                "1.0.0",
+                "1.0",
+                "1.0",
                 datetime.now(ZoneInfo("Asia/Kolkata"))
             )
         )
