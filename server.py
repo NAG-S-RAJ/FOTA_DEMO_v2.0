@@ -976,6 +976,23 @@ async def websocket_endpoint(
 
                if row:
 
+                   # Prevent duplicate VIN connections
+                   if vin in connected_tbms:
+                    
+                        await websocket.send_text(
+                            json.dumps({
+                                "type": "already_connected"
+                            })
+                        )
+                
+                        add_log(
+                            f"Duplicate connection rejected -> {vin}"
+                        )
+                
+                        await websocket.close()
+                
+                        return
+
                    connected_tbms[vin] = websocket
 
                    await websocket.send_text(
