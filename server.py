@@ -173,7 +173,7 @@ async def delete_registered_tbm(
     conn.commit()
 
     add_log(
-        f"TBM Deleted: {vin}"
+        f"Vehicle Deleted: {vin}"
     )
 
     return {
@@ -347,7 +347,7 @@ async def register_tbm(
         conn.commit()
 
         add_log(
-            f"TBM Registered: {vin}"
+            f"Vehicle Registered: {vin}"
         )
 
         return {
@@ -592,7 +592,7 @@ async def campaign(
             }
     
         return {
-            "status":"TBM_NOT_CONNECTED"
+            "status":"VEHICLE_NOT_CONNECTED"
         }
 
     campaign_id = campaign_id.strip()
