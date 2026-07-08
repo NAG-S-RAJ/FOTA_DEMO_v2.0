@@ -289,6 +289,8 @@ async def upload_firmware(
         "version": version,
     
         "file": github_path,
+
+        "path": f"firmware/{ecu}/{filename}",
     
         "download_url": result["content"]["download_url"]
     
