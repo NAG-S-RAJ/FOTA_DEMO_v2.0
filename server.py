@@ -201,11 +201,20 @@ def read_latest_json():
         "Accept": "application/vnd.github+json"
     }
 
-    response = requests.get(url, headers=headers).json()
+    r = requests.get(url, headers=headers)
 
-    content = base64.b64decode(response["content"]).decode()
+    if r.status_code == 404:
+        return {}, None
 
-    return json.loads(content), response["sha"]
+    r.raise_for_status()
+
+    data = r.json()
+
+    latest = json.loads(
+        base64.b64decode(data["content"]).decode()
+    )
+
+    return latest, data["sha"]
 
 def update_latest_json(data, sha):
 
@@ -223,15 +232,14 @@ def update_latest_json(data, sha):
     body = {
         "message": "Update latest firmware",
         "content": base64.b64encode(
-            json.dumps(
-                data,
-                indent=4
-            ).encode()
+            json.dumps(data, indent=4).encode()
         ).decode(),
-        "sha": sha,
         "branch": GITHUB_BRANCH
     }
-
+    
+    if sha:
+        body["sha"] = sha
+    
     requests.put(
         url,
         headers=headers,
