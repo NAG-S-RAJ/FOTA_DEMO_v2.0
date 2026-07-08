@@ -372,6 +372,8 @@ async def firmware_history():
 
                     "file": filename,
 
+                    "path": f"firmware/{ecu}/{filename}",
+
                     "download_url": file["download_url"]
 
                 })
