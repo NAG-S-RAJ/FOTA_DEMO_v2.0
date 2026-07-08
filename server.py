@@ -390,6 +390,27 @@ async def firmware_history():
             "message": str(e)
         }
 
+@app.get("/download_firmware")
+async def download_firmware(path: str):
+
+    headers = {
+        "Authorization": f"Bearer {GITHUB_TOKEN}",
+        "Accept": "application/vnd.github.raw"
+    }
+
+    url = f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}/contents/{path}"
+
+    r = requests.get(url, headers=headers)
+
+    return Response(
+        content=r.content,
+        media_type="application/octet-stream",
+        headers={
+            "Content-Disposition":
+            f'attachment; filename="{os.path.basename(path)}"'
+        }
+    )
+
 #----------------------------------------------------------------
 
 @app.delete("/campaign/{campaign_id}")
