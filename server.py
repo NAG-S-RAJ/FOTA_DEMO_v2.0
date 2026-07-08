@@ -309,6 +309,8 @@ async def upload_firmware(
         "status": "success",
     
         "file": filename,
+
+        "path": f"firmware/{ecu}/{filename}",
     
         "github": result
     
