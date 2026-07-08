@@ -8,11 +8,19 @@ from zoneinfo import ZoneInfo
 import uvicorn
 import json
 import hashlib
+import time
+import requests
+import base64
+import json
 import psycopg2
 from psycopg2 import OperationalError, InterfaceError
 import os
 import secrets
-import time
+
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+GITHUB_OWNER = os.getenv("GITHUB_OWNER")
+GITHUB_REPO = os.getenv("GITHUB_REPO")
+GITHUB_BRANCH = os.getenv("GITHUB_BRANCH", "main")
 
 app = FastAPI()
 DATABASE_URL = os.getenv(
@@ -133,6 +141,21 @@ def add_log(msg):
 
     if len(logs) > 500:
         logs.pop(0)
+
+@app.get("/github_test")
+def github_test():
+
+    headers = {
+        "Authorization": f"Bearer {GITHUB_TOKEN}",
+        "Accept": "application/vnd.github+json"
+    }
+
+    response = requests.get(
+        "https://api.github.com/user",
+        headers=headers
+    )
+
+    return response.json()
 
 @app.delete("/campaign/{campaign_id}")
 async def delete_campaign(campaign_id: str):
