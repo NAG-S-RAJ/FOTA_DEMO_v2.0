@@ -270,7 +270,7 @@ async def upload_firmware(
     content = await file.read()
     version = f"{float(version):.1f}"
     filename = f"{ecu}_v{version}.bin"
-
+    uploaded_at = datetime.now(ZoneInfo("Asia/Kolkata"))
     github_path = f"firmware/{ecu}/{filename}"
 
     result = upload_to_github(
@@ -295,7 +295,9 @@ async def upload_firmware(
 
         "path": f"firmware/{ecu}/{filename}",
     
-        "download_url": result["content"]["download_url"]
+        "download_url": result["content"]["download_url"],
+
+        "uploaded_at": uploaded_at
     
     }
     
@@ -386,9 +388,9 @@ async def firmware_history():
                 })
 
         history.sort(
-            key=version_key,
+            key=lambda x: x["uploaded_at"],
             reverse=True
-        )
+            )
 
         return history
 
