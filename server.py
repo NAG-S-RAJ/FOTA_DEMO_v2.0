@@ -265,7 +265,7 @@ async def upload_firmware(
 ):
 
     content = await file.read()
-
+    version = f"{float(version):.1f}"
     filename = f"{ecu}_v{version}.bin"
 
     github_path = f"firmware/{ecu}/{filename}"
