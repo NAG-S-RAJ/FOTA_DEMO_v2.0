@@ -1,5 +1,5 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from fastapi import UploadFile, File
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import (
     FileResponse,
@@ -408,6 +408,12 @@ async def download_firmware(path: str):
     url = f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}/contents/{path}"
 
     r = requests.get(url, headers=headers)
+
+    if r.status_code != 200:
+        raise HTTPException(
+            status_code=404,
+            detail=f"GitHub returned {r.status_code}: {r.text}"
+        )
 
     return Response(
         content=r.content,
