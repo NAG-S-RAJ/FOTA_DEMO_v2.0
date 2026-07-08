@@ -142,6 +142,8 @@ def add_log(msg):
     if len(logs) > 500:
         logs.pop(0)
 
+# GITHUB Firware repo endpoints and functions
+
 @app.get("/github_test")
 def github_test():
 
@@ -156,8 +158,6 @@ def github_test():
     )
 
     return response.json()
-
-# GITHUB Firware repo endpoints and functions
 
 def upload_to_github(path, content):
 
@@ -185,6 +185,56 @@ def upload_to_github(path, content):
 
     return response.json()
 
+def read_latest_json():
+
+    url = (
+        f"https://api.github.com/repos/"
+        f"{GITHUB_OWNER}/{GITHUB_REPO}"
+        f"/contents/latest.json"
+    )
+
+    headers = {
+        "Authorization": f"Bearer {GITHUB_TOKEN}",
+        "Accept": "application/vnd.github+json"
+    }
+
+    response = requests.get(url, headers=headers).json()
+
+    content = base64.b64decode(response["content"]).decode()
+
+    return json.loads(content), response["sha"]
+
+def update_latest_json(data, sha):
+
+    url = (
+        f"https://api.github.com/repos/"
+        f"{GITHUB_OWNER}/{GITHUB_REPO}"
+        f"/contents/latest.json"
+    )
+
+    headers = {
+        "Authorization": f"Bearer {GITHUB_TOKEN}",
+        "Accept": "application/vnd.github+json"
+    }
+
+    body = {
+        "message": "Update latest firmware",
+        "content": base64.b64encode(
+            json.dumps(
+                data,
+                indent=4
+            ).encode()
+        ).decode(),
+        "sha": sha,
+        "branch": GITHUB_BRANCH
+    }
+
+    requests.put(
+        url,
+        headers=headers,
+        json=body
+    )
+
 @app.post("/upload_firmware")
 async def upload_firmware(
     ecu: str,
@@ -202,6 +252,23 @@ async def upload_firmware(
         github_path,
         content
     )
+    latest, sha = read_latest_json()
+
+    latest[ecu] = {
+
+        "version": version,
+
+        "file": github_path,
+
+        "download_url":
+            result["content"]["download_url"]
+
+    }
+
+    update_latest_json(
+        latest,
+        sha
+    )
 
     if "content" not in result:
 
@@ -215,6 +282,8 @@ async def upload_firmware(
         "file": filename,
         "github": result
     }
+
+#----------------------------------------------------------------
 
 @app.delete("/campaign/{campaign_id}")
 async def delete_campaign(campaign_id: str):
