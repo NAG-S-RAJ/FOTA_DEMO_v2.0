@@ -157,6 +157,65 @@ def github_test():
 
     return response.json()
 
+# GITHUB Firware repo endpoints and functions
+
+def upload_to_github(path, content):
+
+    url = (
+        f"https://api.github.com/repos/"
+        f"{GITHUB_OWNER}/{GITHUB_REPO}/contents/{path}"
+    )
+
+    headers = {
+        "Authorization": f"Bearer {GITHUB_TOKEN}",
+        "Accept": "application/vnd.github+json"
+    }
+
+    data = {
+        "message": f"Upload {path}",
+        "content": base64.b64encode(content).decode(),
+        "branch": GITHUB_BRANCH
+    }
+
+    response = requests.put(
+        url,
+        headers=headers,
+        json=data
+    )
+
+    return response.json()
+
+@app.post("/upload_firmware")
+async def upload_firmware(
+    ecu: str,
+    version: str,
+    file: UploadFile = File(...)
+):
+
+    content = await file.read()
+
+    filename = f"{ecu}_v{version}.bin"
+
+    github_path = f"firmware/{ecu}/{filename}"
+
+    result = upload_to_github(
+        github_path,
+        content
+    )
+
+    if "content" not in result:
+
+        return {
+            "status": "error",
+            "github": result
+        }
+
+    return {
+        "status": "success",
+        "file": filename,
+        "github": result
+    }
+
 @app.delete("/campaign/{campaign_id}")
 async def delete_campaign(campaign_id: str):
 
