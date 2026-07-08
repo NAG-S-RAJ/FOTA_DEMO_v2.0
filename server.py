@@ -325,6 +325,12 @@ async def latest_firmware():
             "message": str(e)
         }
 
+def version_key(item):
+    try:
+        return (item["ecu"], float(item.get("version", 0)))
+    except (ValueError, TypeError):
+        return (item["ecu"], 0.0)
+    
 @app.get("/firmware_history")
 async def firmware_history():
 
@@ -371,14 +377,8 @@ async def firmware_history():
                 })
 
         history.sort(
-
-            key=lambda x: (
-                x["ecu"],
-                float(x["version"])
-            ),
-
+            key=version_key,
             reverse=True
-
         )
 
         return history
