@@ -235,6 +235,28 @@ def update_latest_json(data, sha):
         json=body
     )
 
+def github_list(path):
+
+    url = (
+        f"https://api.github.com/repos/"
+        f"{GITHUB_OWNER}/{GITHUB_REPO}"
+        f"/contents/{path}"
+    )
+
+    headers = {
+        "Authorization": f"Bearer {GITHUB_TOKEN}",
+        "Accept": "application/vnd.github+json"
+    }
+
+    response = requests.get(
+        url,
+        headers=headers
+    )
+
+    response.raise_for_status()
+
+    return response.json()
+
 @app.post("/upload_firmware")
 async def upload_firmware(
     ecu: str,
@@ -252,36 +274,121 @@ async def upload_firmware(
         github_path,
         content
     )
-    latest, sha = read_latest_json()
-
-    latest[ecu] = {
-
-        "version": version,
-
-        "file": github_path,
-
-        "download_url":
-            result["content"]["download_url"]
-
-    }
-
-    update_latest_json(
-        latest,
-        sha
-    )
-
+    
     if "content" not in result:
-
+    
         return {
             "status": "error",
             "github": result
         }
-
-    return {
-        "status": "success",
-        "file": filename,
-        "github": result
+    
+    latest, sha = read_latest_json()
+    
+    latest[ecu] = {
+    
+        "version": version,
+    
+        "file": github_path,
+    
+        "download_url": result["content"]["download_url"]
+    
     }
+    
+    update_latest_json(
+        latest,
+        sha
+    )
+    
+    return {
+    
+        "status": "success",
+    
+        "file": filename,
+    
+        "github": result
+    
+    }
+
+@app.get("/latest_firmware")
+async def latest_firmware():
+
+    try:
+
+        latest, _ = read_latest_json()
+
+        return latest
+
+    except Exception as e:
+
+        return {
+            "status": "error",
+            "message": str(e)
+        }
+
+@app.get("/firmware_history")
+async def firmware_history():
+
+    try:
+
+        history = []
+
+        for ecu in ["SGW", "BCM"]:
+
+            files = github_list(
+                f"firmware/{ecu}"
+            )
+
+            if not isinstance(files, list):
+                continue
+
+            for file in files:
+
+                if file["type"] != "file":
+                    continue
+
+                filename = file["name"]
+
+                version = ""
+
+                if "_v" in filename:
+
+                    version = (
+                        filename
+                        .split("_v")[1]
+                        .replace(".bin", "")
+                    )
+
+                history.append({
+
+                    "ecu": ecu,
+
+                    "version": version,
+
+                    "file": filename,
+
+                    "download_url": file["download_url"]
+
+                })
+
+        history.sort(
+
+            key=lambda x: (
+                x["ecu"],
+                float(x["version"])
+            ),
+
+            reverse=True
+
+        )
+
+        return history
+
+    except Exception as e:
+
+        return {
+            "status": "error",
+            "message": str(e)
+        }
 
 #----------------------------------------------------------------
 
