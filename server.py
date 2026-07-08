@@ -1,3 +1,4 @@
+from urllib import response
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -186,6 +187,9 @@ def upload_to_github(path, content):
         json=data
     )
 
+    print("UPLOAD STATUS:", response.status_code)
+    print("UPLOAD BODY:", response.text)
+
     return response.json()
 
 def read_latest_json():
@@ -240,11 +244,14 @@ def update_latest_json(data, sha):
     if sha:
         body["sha"] = sha
     
-    requests.put(
+    r = requests.put(
         url,
         headers=headers,
         json=body
     )
+    
+    print("LATEST STATUS:", r.status_code)
+    print("LATEST BODY:", r.text)
 
 def github_list(path):
 
